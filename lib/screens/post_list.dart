@@ -47,8 +47,16 @@ class _PostListState extends State<PostList> {
                 itemBuilder: (context, index) {
                   PostModel post = _posts[index];
                   return Dismissible(
-                      key: Key(_posts[index].title),
-                      background: Container(color: Colors.red),
+                      key: ObjectKey(_posts[index]),
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 20.0),
+                        color: Colors.red,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
                           deletePost(post.id);
@@ -56,8 +64,46 @@ class _PostListState extends State<PostList> {
                         }
                       },
                       direction: DismissDirection.endToStart,
-                      child: Center(
-                        child: Text(post.title),
+                      child: Card(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                        child: Container(
+                          height: 100,
+                          width: MediaQuery.of(context).size.width - 32,
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  post.title,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 10, top: 3),
+                                  child: Text(
+                                    post.categories,
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Flexible(
+                                  child: Text(
+                                    post.content,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ));
                 },
               ),
